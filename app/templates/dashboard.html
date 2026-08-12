@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Device Monitoring</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header class="topbar">
+        <h1>Network Device Monitoring</h1>
+        <button id="btn-refresh" class="btn btn-secondary">Refresh</button>
+    </header>
+
+    <main class="container">
+        <!-- Summary cards -->
+        <section class="stats">
+            <div class="stat-card">
+                <span class="stat-label">Total Devices</span>
+                <span id="stat-total" class="stat-value">-</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-label">Devices UP</span>
+                <span id="stat-up" class="stat-value up">-</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-label">Devices DOWN</span>
+                <span id="stat-down" class="stat-value down">-</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-label">Avg Response</span>
+                <span id="stat-avg" class="stat-value">-</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-label">Last Check</span>
+                <span id="stat-last" class="stat-value small">-</span>
+            </div>
+        </section>
+
+        <!-- Device table -->
+        <section class="panel">
+            <div class="panel-header">
+                <h2>Devices</h2>
+                <button id="btn-add" class="btn btn-primary">+ Add Device</button>
+            </div>
+            <div class="table-wrap">
+                <table id="device-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>IP / Hostname</th>
+                            <th>Type</th>
+                            <th>Status</th>
+                            <th>Response Time</th>
+                            <th>Last Checked</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="device-tbody">
+                        <tr><td colspan="7" class="empty-row">Loading devices...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <!-- Add / Edit device modal -->
+    <div id="modal" class="modal hidden">
+        <div class="modal-box">
+            <h2 id="modal-title">Add Device</h2>
+            <form id="device-form">
+                <input type="hidden" id="device-id">
+                <label for="name">Name *</label>
+                <input type="text" id="name" maxlength="120" required>
+
+                <label for="ip_address">IP Address or Hostname *</label>
+                <input type="text" id="ip_address" required placeholder="e.g. 192.168.1.10 or server.local">
+
+                <label for="device_type">Device Type</label>
+                <select id="device_type">
+                    <option value="server">Server</option>
+                    <option value="router">Router</option>
+                    <option value="switch">Switch</option>
+                    <option value="workstation">Workstation</option>
+                </select>
+
+                <label for="monitoring_interval">Monitoring Interval (seconds, min 5)</label>
+                <input type="number" id="monitoring_interval" min="5" value="60">
+
+                <label for="description">Description</label>
+                <textarea id="description" rows="2" maxlength="255"></textarea>
+
+                <p id="form-error" class="form-error hidden"></p>
+
+                <div class="modal-actions">
+                    <button type="button" id="btn-cancel" class="btn btn-secondary">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- History modal -->
+    <div id="history-modal" class="modal hidden">
+        <div class="modal-box">
+            <h2 id="history-title">Monitoring History</h2>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Status</th>
+                            <th>Response Time</th>
+                        </tr>
+                    </thead>
+                    <tbody id="history-tbody">
+                        <tr><td colspan="3" class="empty-row">No history yet.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-actions">
+                <button type="button" id="btn-close-history" class="btn btn-secondary">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="toast hidden"></div>
+
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
