@@ -10,6 +10,9 @@ BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
 
 class Config:
+    # App Debug mode.
+    DEBUG = os.environ.get("DEBUG", "False").lower() in ("true", "1", "t")
+
     # Used by Flask for sessions. Not a secret used in production.
     SECRET_KEY = os.environ.get("SECRET_KEY", "dev-secret-key-change-me")
 
