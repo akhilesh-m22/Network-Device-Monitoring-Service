@@ -23,7 +23,8 @@ def validate_ip_or_hostname(value):
 
     Accepts IPv4 addresses and hostnames (e.g. ``192.168.1.10`` or
     ``router.home.local``). IPv6 is rejected because the ping command used
-    here only targets IPv4/hostnames, which keeps the code simple.
+    here only targets IPv4/hostnames, which keeps the code simple and more
+    predictable across different OS platforms.
     """
     if not value or not isinstance(value, str):
         raise ValueError("IP address or hostname is required.")
